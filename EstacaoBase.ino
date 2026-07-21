@@ -195,9 +195,11 @@ void receber_pacote(){
 
   switch(estagio_ar){
     case SEM_CONEXAO:
-      digitalWrite(RGB_R, LOW);
-      digitalWrite(RGB_G, LOW);
-      digitalWrite(RGB_B, HIGH);
+      if (millis() - ultimo_envio >= intervalo*2){
+        digitalWrite(RGB_R, LOW);
+        digitalWrite(RGB_G, digitalRead(RGB_G));
+        digitalWrite(RGB_B, LOW);
+      }
       break;
 
     case ESPERA:
@@ -213,8 +215,10 @@ void receber_pacote(){
       break;
 
     case ACIONADO:
-      digitalWrite(RGB_R, HIGH);
-      digitalWrite(RGB_G, LOW);
-      digitalWrite(RGB_B, LOW);
+      if (millis() - ultimo_envio >= intervalo){
+        digitalWrite(RGB_R, digitalRead(RGB_R));
+        digitalWrite(RGB_G, LOW);
+        digitalWrite(RGB_B, LOW);
+      }
   }
 }
