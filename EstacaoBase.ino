@@ -109,7 +109,7 @@ void loop(){
 
   receber_pacote();
 
-  if(millis() - ultimo_contato > 10*intervalo){
+  if(millis() - ultimo_contato > 100*intervalo){
     estagio_ar = SEM_CONEXAO;
   }
 
