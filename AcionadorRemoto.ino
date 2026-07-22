@@ -133,7 +133,7 @@ void atualizar_estagio(){
     case ARMADO:
       testar_continuidade();
       if (!continuity_test){
-        estagio = SEGURO;
+        memcpy(msg, "NSKB", 4);
         break;
       }
 
