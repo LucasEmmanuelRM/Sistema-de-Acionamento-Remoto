@@ -10,12 +10,13 @@
 #define LED_RGB_G 26
 #define LED_RGB_B 27
 
-///////////////////////////////////////////////////////////
-//  Aceso, azul       = Sem conexão com o acionador      //
-//  Aceso, verde      = Com conexão, acionador em espera //
-//  Aceso, amarelo    = Com conexão, pronto pra ignição  //
-//  Aceso, vermelho   = Ignição em andamento             //
-///////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+//  Piscando, verde    = Sem conexão com o acionador      //
+//  Aceso, verde       = Com conexão, acionador em espera //
+//  Piscando, amarleo  = Falta de continuidade no skib    //
+//  Aceso, amarelo     = Com conexão, pronto pra ignição  //
+//  Piscando, vermelho = Ignição em andamento             //
+////////////////////////////////////////////////////////////
 
 // Chaves de Estágio
 #define KEY_A 32    // Chave de armação (chave seletora)
@@ -109,7 +110,7 @@ void loop(){
 
   receber_pacote();
 
-  if(millis() - ultimo_contato > 100*intervalo){
+  if(millis() - ultimo_contato > 10*intervalo){
     estagio_ar = SEM_CONEXAO;
   }
 
@@ -209,9 +210,16 @@ void receber_pacote(){
       break;
 
     case PRONTO:
-      digitalWrite(RGB_R, HIGH);
-      digitalWrite(RGB_G, HIGH);
-      digitalWrite(RGB_B, LOW);
+      if (recebido.msg == "RDY "){
+        digitalWrite(RGB_R, HIGH);
+        digitalWrite(RGB_G, HIGH);
+        digitalWrite(RGB_B, LOW);
+      }
+      else if (recebido.msg == "NSKB" && millis() - ultimo_envio >= intervalo*2){
+        digitalWrite(RGB_R, digitalRead(RGB_R));
+        digitalWrite(RGB_G, digitalRead(RGB_G));
+        digitalWrite(RGB_B, LOW);
+      }
       break;
 
     case ACIONADO:
