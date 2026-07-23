@@ -13,7 +13,7 @@
 ////////////////////////////////////////////////////////////
 //  Piscando, verde    = Sem conexão com o acionador      //
 //  Aceso, verde       = Com conexão, acionador em espera //
-//  Piscando, amarleo  = Falta de continuidade no skib    //
+//  Piscando, amarelo  = Falta de continuidade no skib    //
 //  Aceso, amarelo     = Com conexão, pronto pra ignição  //
 //  Piscando, vermelho = Ignição em andamento             //
 ////////////////////////////////////////////////////////////
@@ -198,7 +198,7 @@ void receber_pacote(){
     case SEM_CONEXAO:
       if (millis() - ultimo_envio >= intervalo*2){
         digitalWrite(RGB_R, LOW);
-        digitalWrite(RGB_G, digitalRead(RGB_G));
+        digitalWrite(RGB_G, !digitalRead(RGB_G));
         digitalWrite(RGB_B, LOW);
       }
       break;
@@ -216,15 +216,15 @@ void receber_pacote(){
         digitalWrite(RGB_B, LOW);
       }
       else if (recebido.msg == "NSKB" && millis() - ultimo_envio >= intervalo*2){
-        digitalWrite(RGB_R, digitalRead(RGB_R));
-        digitalWrite(RGB_G, digitalRead(RGB_G));
+        digitalWrite(RGB_R, !digitalRead(RGB_R));
+        digitalWrite(RGB_G, !digitalRead(RGB_G));
         digitalWrite(RGB_B, LOW);
       }
       break;
 
     case ACIONADO:
       if (millis() - ultimo_envio >= intervalo){
-        digitalWrite(RGB_R, digitalRead(RGB_R));
+        digitalWrite(RGB_R, !digitalRead(RGB_R));
         digitalWrite(RGB_G, LOW);
         digitalWrite(RGB_B, LOW);
       }
