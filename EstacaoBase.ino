@@ -197,36 +197,36 @@ void receber_pacote(){
   switch(estagio_ar){
     case SEM_CONEXAO:
       if (millis() - ultimo_envio >= intervalo*2){
-        digitalWrite(RGB_R, LOW);
-        digitalWrite(RGB_G, !digitalRead(RGB_G));
-        digitalWrite(RGB_B, LOW);
+        digitalWrite(LED_RGB_R, LOW);
+        digitalWrite(LED_RGB_G, !digitalRead(LED_RGB_G));
+        digitalWrite(LED_RGB_B, LOW);
       }
       break;
 
     case ESPERA:
-      digitalWrite(RGB_R, LOW);
-      digitalWrite(RGB_G, HIGH);
-      digitalWrite(RGB_B, LOW);
+      digitalWrite(LED_RGB_R, LOW);
+      digitalWrite(LED_RGB_G, HIGH);
+      digitalWrite(LED_RGB_B, LOW);
       break;
 
     case PRONTO:
       if (recebido.msg == "RDY "){
-        digitalWrite(RGB_R, HIGH);
-        digitalWrite(RGB_G, HIGH);
-        digitalWrite(RGB_B, LOW);
+        digitalWrite(LED_RGB_R, HIGH);
+        digitalWrite(LED_RGB_G, HIGH);
+        digitalWrite(LED_RGB_B, LOW);
       }
       else if (recebido.msg == "NSKB" && millis() - ultimo_envio >= intervalo*2){
-        digitalWrite(RGB_R, !digitalRead(RGB_R));
-        digitalWrite(RGB_G, !digitalRead(RGB_G));
-        digitalWrite(RGB_B, LOW);
+        digitalWrite(LED_RGB_R, !digitalRead(LED_RGB_R));
+        digitalWrite(LED_RGB_G, !digitalRead(LED_RGB_G));
+        digitalWrite(LED_RGB_B, LOW);
       }
       break;
 
     case ACIONADO:
       if (millis() - ultimo_envio >= intervalo){
-        digitalWrite(RGB_R, !digitalRead(RGB_R));
-        digitalWrite(RGB_G, LOW);
-        digitalWrite(RGB_B, LOW);
+        digitalWrite(LED_RGB_R, !digitalRead(LED_RGB_R));
+        digitalWrite(LED_RGB_G, LOW);
+        digitalWrite(LED_RGB_B, LOW);
       }
   }
 }
